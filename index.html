@@ -46,8 +46,11 @@
             var iframe = document.getElementById('dynamicIframe');
             var allowPayment = document.getElementById('paymentCheckbox').checked;
 
-            if (url.startsWith('http')) {
+            // Validate URL before setting it to the iframe
+            if (url.startsWith('http') || url.startsWith('https')) {
                 iframe.src = url;
+            } else {
+                iframe.src = '';  // Clear the iframe if the URL is invalid
             }
 
             if (allowPayment) {
