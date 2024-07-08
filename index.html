@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Iframe URL</title>
+    <title>Dynamic Iframe URL with Payment Permission</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
         }
-        input {
+        input[type="text"], input[type="checkbox"] {
             margin-bottom: 20px;
             padding: 10px;
             width: 80%;
@@ -21,21 +21,41 @@
             height: 500px;
             border: 1px solid #ccc;
         }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Dynamic Iframe URL</h1>
+    <h1>Dynamic Iframe URL with Payment Permission</h1>
     <input type="text" id="urlInput" placeholder="Enter URL" />
+    <label>
+        <input type="checkbox" id="paymentCheckbox" />
+        Allow Payment
+    </label>
     <iframe id="dynamicIframe" src="https://en.wikipedia.org"></iframe>
 
     <script>
-        document.getElementById('urlInput').addEventListener('input', function() {
-            var url = this.value;
+        document.getElementById('urlInput').addEventListener('input', updateIframe);
+        document.getElementById('paymentCheckbox').addEventListener('change', updateIframe);
+
+        function updateIframe() {
+            var url = document.getElementById('urlInput').value;
+            var iframe = document.getElementById('dynamicIframe');
+            var allowPayment = document.getElementById('paymentCheckbox').checked;
+
             if (url.startsWith('http')) {
-                document.getElementById('dynamicIframe').src = url;
+                iframe.src = url;
             }
-        });
+
+            if (allowPayment) {
+                iframe.setAttribute('allow', 'payment *');
+            } else {
+                iframe.removeAttribute('allow');
+            }
+        }
     </script>
 
 </body>
